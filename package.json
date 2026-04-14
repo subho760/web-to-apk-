@@ -1,0 +1,5 @@
+{
+  "name": "com.subho.app",
+  "version": "1.0.0",
+  "dependencies": { "cordova-android": "^12.0.0" }
+}
