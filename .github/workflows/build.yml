@@ -1,36 +1,25 @@
 name: Build APK
 on: [workflow_dispatch]
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Install Cordova
-        run: npm install -g cordova
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - run: npm install -g cordova
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-
       - name: Build Android
         run: |
           cordova platform add android@12.0.1
           cordova build android --release -- --stacktrace
         env:
           NODE_OPTIONS: --openssl-legacy-provider
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: EasyUnitConverter-APK
           path: platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
