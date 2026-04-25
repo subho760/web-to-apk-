@@ -24,8 +24,8 @@ jobs:
 
       - name: Build Android
         run: |
-          cordova platform add android
-          cordova build android
+          cordova platform add android@12.0.1
+          cordova build android --release
         env:
           NODE_OPTIONS: --openssl-legacy-provider
 
@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: EasyUnitConverter-APK
-          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
+          path: platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
