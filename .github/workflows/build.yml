@@ -1,26 +1,34 @@
 name: Build APK
 on: [workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install -g cordova
-      - uses: actions/setup-java@v4
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '11' # This is the magic version for XmlParser
+
       - name: Build Android
         run: |
-          cordova platform add android@12.0.1
-          cordova build android --release -- --stacktrace
+          cordova platform add android@10.1.2 # Using a more stable version for Java 11
+          cordova build android --release
         env:
           NODE_OPTIONS: --openssl-legacy-provider
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: EasyUnitConverter-APK
           path: platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
-
