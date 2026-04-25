@@ -20,12 +20,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
 
       - name: Build Android
         run: |
           cordova platform add android@12.0.1
-          cordova build android --release
+          cordova build android --release -- --stacktrace
         env:
           NODE_OPTIONS: --openssl-legacy-provider
 
@@ -34,3 +34,4 @@ jobs:
         with:
           name: EasyUnitConverter-APK
           path: platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+
