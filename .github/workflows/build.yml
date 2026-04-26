@@ -25,9 +25,9 @@ jobs:
       - name: Build Android
         run: |
           cordova platform add android@12.0.1
-          # This command fixes the XmlParser error for Java 17
-          sed -i 's/new XmlParser(/new XmlParser(false, false).parseText(xml) \/\/ /g' platforms/android/CordovaLib/cordova.gradle || true
-          cordova build android --release
+          # This command injects the missing XML library directly into the project
+          echo "configurations.all { resolutionStrategy.force 'org.codehaus.groovy:groovy-xml:3.0.15' }" >> platforms/android/build.gradle
+          cordova build android --release --verbose
         env:
           NODE_OPTIONS: --openssl-legacy-provider
 
