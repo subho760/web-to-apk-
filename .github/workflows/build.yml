@@ -20,14 +20,13 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '11' # Moving back to 11 for maximum compatibility with XmlParser
 
       - name: Build Android
         run: |
-          cordova platform add android@12.0.1
-          # This command injects the missing XML library directly into the project
-          echo "configurations.all { resolutionStrategy.force 'org.codehaus.groovy:groovy-xml:3.0.15' }" >> platforms/android/build.gradle
-          cordova build android --release --verbose
+          # We force a slightly older, very stable version of the Android engine
+          cordova platform add android@10.1.2 
+          cordova build android --release
         env:
           NODE_OPTIONS: --openssl-legacy-provider
 
